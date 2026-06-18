@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="url(#bg)"/>
+  <!-- lightning bolt = snippet speed -->
+  <path d="M52 18 L42 52 L58 52 L48 82 L72 40 L56 40 L65 18 Z" fill="#58a6ff" stroke="#1f6feb" stroke-width="2" stroke-linejoin="round"/>
+</svg>

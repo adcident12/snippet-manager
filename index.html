@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="" id="csrfMetaTag">
+  <title>Personal Snippet Manager</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+   <link rel="stylesheet" href="css/style.css">
+   <!-- parsedown-css for light-mode markdown preview -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/parsedown-css@1.0.0/dist/parsedown.min.css">
+   <!-- Custom markdown preview styles (light-mode) -->
+   <link rel="stylesheet" href="css/markdown-preview.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+   <!-- Syntax highlighters — all 15 languages used in the app -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/css.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/markdown.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+   <!-- Marked.js for Markdown preview -->
+   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    * { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
+    pre code { font-family: 'JetBrains Mono', 'Fira Code', monospace !important; }
+  </style>
+</head>
+<body class="h-full bg-[#0d1117] text-[#e6edf3]">
+  <!-- Header -->
+  <header class="border-b border-[#21262d]/50 relative overflow-hidden" style="background: linear-gradient(135deg, #161b22 0%, #1a1f2e 100%);">
+    <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(90deg, transparent 0%, rgba(31,111,235,0.04) 50%, transparent 100%);"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h1 class="text-xl font-semibold text-[#e6edf3] flex items-center gap-2">
+            <span style="filter: drop-shadow(0 0 8px rgba(56,139,253,0.3));">⚡</span> Snippet Manager
+          </h1>
+          <p class="text-sm text-[#8b949e] mt-0.5">จัดเก็บและค้นหาโค้ดของคุณ</p>
+        </div>
+
+        <!-- Search bar -->
+        <div class="flex-1 max-w-xl">
+          <div class="relative">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8b949e] pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input id="searchInput" type="text" placeholder="ค้นหา snippet..."
+              class="w-full pl-10 pr-4 py-2 bg-[#0d1117]/80 border border-[#30363d] rounded-lg text-sm text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:border-[#58a6ff] transition-all shadow-inner">
+          </div>
+        </div>
+
+        <!-- New snippet button -->
+        <button id="btnNewSnippet" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#238636] to-[#2ea043] hover:from-[#2ea043] hover:to-[#3fb950] text-white text-sm font-medium rounded-lg transition-all shadow-sm" style="border: 1px solid rgba(255,255,255,0.08);">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          เพิ่ม snippet
+        </button>
+      </div>
+
+      <!-- Tag filter -->
+      <div id="tagFilterBar" class="flex items-center gap-2 mt-3 flex-wrap">
+        <span class="text-xs text-[#8b949e] font-medium">กรอง:</span>
+        <button data-tag="" class="tag-filter-btn px-2.5 py-1 text-xs bg-[#21262d] text-[#8b949e] hover:text-[#e6edf3] rounded-md transition-colors border border-[#30363d]">ทั้งหมด</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- Status bar -->
+    <div id="statusBar" class="flex items-center justify-between mb-4">
+      <span id="snippetCount" class="text-sm text-[#8b949e]">กำลังโหลด...</span>
+      <button id="btnLoadAll" class="text-xs text-[#58a6ff] hover:text-[#79c0ff] transition-colors">โหลดทั้งหมด</button>
+    </div>
+
+    <!-- Snippet grid -->
+    <div id="snippetGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <!-- Loading skeleton -->
+      <div class="bg-[#161b22] border border-[#21262d] rounded-xl p-5" style="background: linear-gradient(90deg, #161b22 25%, #1c2129 50%, #161b22 75%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite;">
+        <div class="flex items-center justify-between mb-3">
+          <div class="h-5 w-40 rounded skeleton-shimmer"></div>
+          <div class="h-5 w-16 rounded skeleton-shimmer"></div>
+        </div>
+        <div class="space-y-2">
+          <div class="h-4 rounded w-full skeleton-shimmer"></div>
+          <div class="h-4 rounded w-3/4 skeleton-shimmer"></div>
+          <div class="h-4 rounded w-1/2 skeleton-shimmer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div id="emptyState" class="hidden text-center py-20">
+      <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-[#161b22] border border-[#30363d]/50 rounded-full">
+        <svg class="w-10 h-10 text-[#484f58]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-[#8b949e] mb-1">ยังไม่มี snippet</h3>
+      <p class="text-sm text-[#484f58] mb-4">เริ่มเพิ่ม snippet แรกของคุณ</p>
+      <button id="btnFirstSnippet" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#238636] to-[#2ea043] hover:from-[#2ea043] hover:to-[#3fb950] text-white text-sm font-medium rounded-lg transition-all shadow-sm" style="border: 1px solid rgba(255,255,255,0.08);">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        เพิ่ม snippet แรก
+      </button>
+    </div>
+
+    <!-- No results state -->
+    <div id="noResultsState" class="hidden text-center py-20">
+      <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-[#161b22] border border-[#30363d]/50 rounded-full">
+        <svg class="w-10 h-10 text-[#484f58]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-[#8b949e] mb-1">ไม่พบผลลัพธ์</h3>
+      <p class="text-sm text-[#484f58]">ลองค้นหาด้วยคำอื่น หรือเพิ่ม snippet ใหม่</p>
+    </div>
+  </main>
+
+  <!-- Modal: Add/Edit Snippet -->
+  <div id="snippetModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="modal-backdrop absolute inset-0 bg-black/60"></div>
+    <div class="relative min-h-screen flex items-center justify-center p-4 py-10">
+      <div class="relative w-full max-w-2xl bg-[#161b22] border border-[#30363d] rounded-xl shadow-2xl slide-up flex flex-col max-h-[calc(100vh-8rem)]">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between px-6 py-4 border-b border-[#21262d]">
+          <h2 id="modalTitle" class="text-lg font-medium text-[#e6edf3]">เพิ่ม snippet ใหม่</h2>
+          <button id="btnCloseModal" class="text-[#8b949e] hover:text-[#e6edf3] transition-colors p-1 -mr-1 rounded">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Hidden CSRF token input -->
+        <input id="csrfTokenInput" type="hidden" value="">
+
+        <!-- Modal body -->
+        <div class="px-6 py-5 space-y-4">
+          <input id="editTitle" type="text" placeholder="ชื่อ snippet..."
+            class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:border-[#58a6ff] transition-colors">
+
+          <div class="grid grid-cols-2 gap-3">
+            <select id="editLanguage"
+              class="px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm text-[#e6edf3] focus:outline-none focus:border-[#58a6ff] transition-colors appearance-none cursor-pointer">
+              <option value="plaintext">ภาษา</option>
+              <option value="php">PHP</option>
+              <option value="javascript">JavaScript</option>
+              <option value="typescript">TypeScript</option>
+              <option value="python">Python</option>
+              <option value="css">CSS</option>
+              <option value="html">HTML</option>
+              <option value="sql">SQL</option>
+              <option value="json">JSON</option>
+              <option value="bash">Bash</option>
+              <option value="java">Java</option>
+              <option value="cpp">C++</option>
+              <option value="csharp">C#</option>
+              <option value="go">Go</option>
+              <option value="rust">Rust</option>
+            <option value="markdown">Markdown</option>
+            </select>
+
+            <input id="editTags" type="text" placeholder="tags (แยกด้วย comma)"
+              class="px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:border-[#58a6ff] transition-colors">
+          </div>
+
+          <textarea id="editCode" rows="12" placeholder="วางโค้ดที่นี่..."
+            class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm text-[#e6edf3] font-mono placeholder-[#484f58] focus:outline-none focus:border-[#58a6ff] transition-colors resize-y"></textarea>
+
+          <input id="editDescription" type="text" placeholder="คำอธิบาย (ไม่จำเป็น)..."
+            class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:border-[#58a6ff] transition-colors">
+        </div>
+
+        <!-- Modal footer -->
+        <div class="flex items-center justify-end gap-2 px-6 py-4 border-t border-[#21262d]">
+          <button id="btnCancelEdit" class="px-4 py-2 text-sm text-[#8b949e] hover:text-[#e6edf3] transition-colors">ยกเลิก</button>
+          <button id="btnSaveSnippet" class="flex items-center gap-2 px-5 py-2 bg-[#238636] hover:bg-[#2ea043] text-white text-sm font-medium rounded-lg transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            บันทึก
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: View Snippet -->
+  <div id="viewModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="modal-backdrop absolute inset-0 bg-black/60"></div>
+    <div class="relative min-h-screen flex items-center justify-center p-4 py-10">
+      <div class="relative w-full max-w-3xl bg-[#161b22] border border-[#30363d] rounded-xl shadow-2xl slide-up flex flex-col max-h-[calc(100vh-8rem)]">
+        <!-- View header -->
+        <div class="flex items-center justify-between px-6 py-4 border-b border-[#21262d]">
+          <div>
+            <h2 id="viewTitle" class="text-lg font-medium text-[#e6edf3]"></h2>
+            <div id="viewMeta" class="flex items-center gap-3 mt-1">
+              <span id="viewLanguage" class="px-2 py-0.5 text-xs bg-[#1f6feb]/20 text-[#58a6ff] rounded-full"></span>
+              <span id="viewDate" class="text-xs text-[#8b949e]"></span>
+            </div>
+          </div>
+          <button id="btnCloseView" class="text-[#8b949e] hover:text-[#e6edf3] transition-colors p-1 -mr-1 rounded">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- View body -->
+        <div class="p-6 overflow-y-auto flex-1 min-h-0">
+          <!-- Tags -->
+          <div id="viewTags" class="flex items-center gap-2 mb-4 flex-wrap"></div>
+
+          <!-- Description -->
+          <p id="viewDescription" class="text-sm text-[#8b949e] mb-4 hidden"></p>
+
+          <!-- Code block (scrollable) -->
+          <pre class="view-code-block" id="viewCodeBlock"><code id="viewCode" class="language-php"></code></pre>
+
+          <!-- Markdown preview container (hidden by default) -->
+          <div id="markdownPreviewContainer" class="hidden rounded-lg p-6 overflow-y-auto max-h-[400px] border border-[#30363d] bg-white text-[#2c3e50]">
+            <div id="markdownPreview"></div>
+          </div>
+
+          <!-- Markdown toggle bar -->
+          <div id="markdownToggle" class="hidden px-6 pb-3">
+            <span class="text-xs text-[#8b949e] mr-2">รูปแบบ:</span>
+            <div class="inline-flex items-center gap-0 overflow-hidden rounded-lg border border-[#30363d] bg-[#0d1117]">
+              <button id="btnMarkdownRaw" class="px-4 py-1.5 text-xs font-medium min-w-[64px] text-center transition-all duration-200 ease-in-out rounded-none bg-transparent text-[#8b949e] hover:text-[#e6edf3] hover:bg-[#21262d]/50 active:bg-[#21262d]">Raw</button>
+              <button id="btnMarkdownPreview" class="px-4 py-1.5 text-xs font-medium min-w-[64px] text-center transition-all duration-200 ease-in-out rounded-none bg-transparent text-[#8b949e] hover:text-[#e6edf3] hover:bg-[#21262d]/50 active:bg-[#21262d]">Preview</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- View footer -->
+        <div class="flex items-center justify-end gap-2 px-6 py-4 border-t border-[#21262d]">
+          <button id="btnDownloadFromView" class="flex items-center gap-2 px-4 py-2 text-sm text-[#8b949e] hover:text-[#58a6ff] bg-[#0d1117] border border-[#30363d] rounded-lg transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            ดาวน์โหลด
+          </button>
+          <button id="btnCopySnippet" class="flex items-center gap-2 px-4 py-2 text-sm text-[#8b949e] hover:text-[#e6edf3] bg-[#0d1117] border border-[#30363d] rounded-lg transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+            </svg>
+            คัดลอกโค้ด
+          </button>
+          <button id="btnShareSnippet" class="hidden flex items-center gap-2 px-4 py-2 text-sm text-[#8b949e] hover:text-[#58a6ff] bg-[#0d1117] border border-[#30363d] rounded-lg transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.442 9 12c0-.442-.114-.85-.316-1.242a1.003 1.003 0 011.632-1.084A5.995 5.995 0 0117.5 12c0 1.38-.488 2.646-1.298 3.626a1.003 1.003 0 01-1.348 1.598A5.993 5.993 0 0112 17c-1.978 0-3.716-.95-4.782-2.396a1.003 1.003 0 011.368-1.46A3.994 3.994 0 0012 15c.86 0 1.657-.274 2.316-.74a3.996 3.996 0 00-2.316-7.26 3.995 3.995 0 00-3.984 3.758A5.995 5.995 0 019 12c0 .442.114.85.316 1.242a5.995 5.995 0 01-4.718 5.296 1.003 1.003 0 01-.704-1.71A3.997 3.997 0 007.218 12"/>
+            </svg>
+            แชร์
+          </button>
+          <button id="btnEditFromView" class="flex items-center gap-2 px-4 py-2 text-sm bg-[#1f6feb] hover:bg-[#388bfd] text-white rounded-lg transition-colors">
+            แก้ไข
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="hidden fixed bottom-6 right-6 z-[100] fade-in">
+    <div class="px-4 py-3 bg-[#238636] text-white text-sm rounded-lg shadow-xl flex items-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+      <span id="toastMessage"></span>
+    </div>
+  </div>
+
+  <!-- Delete confirmation modal -->
+  <div id="deleteModal" class="hidden fixed inset-0 z-50">
+    <div class="modal-backdrop absolute inset-0 bg-black/60"></div>
+    <div class="relative min-h-full flex items-center justify-center p-4">
+      <div class="relative w-full max-w-sm bg-[#161b22] border border-[#f8514930] rounded-xl shadow-2xl slide-up">
+        <div class="px-6 py-5 text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-[#da3633]/10 rounded-full">
+            <svg class="w-6 h-6 text-[#f85149]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-medium text-[#e6edf3] mb-1">ลบ snippet นี้?</h3>
+          <p class="text-sm text-[#8b949e]">การกระทำนี้ไม่สามารถยกเลิกได้</p>
+        </div>
+        <div class="flex items-center justify-center gap-2 px-6 py-4 border-t border-[#21262d]">
+          <button id="btnCancelDelete" class="px-4 py-2 text-sm text-[#8b949e] hover:text-[#e6edf3] transition-colors">ยกเลิก</button>
+          <button id="btnConfirmDelete" class="px-4 py-2 text-sm bg-[#da3633] hover:bg-[#f85149] text-white font-medium rounded-lg transition-colors">ลบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
