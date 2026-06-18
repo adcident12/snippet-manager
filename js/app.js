@@ -231,9 +231,10 @@ $(function () {
 
     if (!isLoadingMore) {
       showSkeleton(perPage > 6 ? 6 : perPage);
+      $('#pagination').addClass('hidden');
+      $('#snippetCount').text('กำลังโหลด...');
     }
-    $('#emptyState, #noResultsState, #pagination').addClass('hidden');
-    if (!isLoadingMore) $('#snippetCount').text('กำลังโหลด...');
+    $('#emptyState, #noResultsState').addClass('hidden');
 
     $.getJSON(API_BASE + 'snippets.php', params).done(function (res) {
       if (!res.success) return;
