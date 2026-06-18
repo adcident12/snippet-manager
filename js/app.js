@@ -2,8 +2,45 @@
  * Personal Snippet Manager - Main Application
  */
 $(function () {
-  // ========== State ==========
-  var currentSearch = '';
+   // ========== Theme Management ==========
+   var currentTheme = localStorage.getItem('theme') || 'dark';
+
+   function applyTheme(theme) {
+     if (theme === 'light') {
+       $('html').attr('data-theme', 'light');
+       $('#themeIconMoon').addClass('hidden');
+       $('#themeIconSun').removeClass('hidden');
+     } else {
+       $('html').attr('data-theme', 'dark');
+       $('#themeIconMoon').removeClass('hidden');
+       $('#themeIconSun').addClass('hidden');
+     }
+     localStorage.setItem('theme', theme);
+     currentTheme = theme;
+   }
+
+   // Initialize theme on load
+   if (currentTheme === 'light') {
+     $('html').attr('data-theme', 'light');
+     $('#themeIconMoon').addClass('hidden');
+     $('#themeIconSun').removeClass('hidden');
+   } else {
+     $('html').attr('data-theme', 'dark');
+     $('#themeIconMoon').removeClass('hidden');
+     $('#themeIconSun').addClass('hidden');
+   }
+
+   // Toggle button click handler
+   $('#btnThemeToggle').on('click', function () {
+     if (currentTheme === 'dark') {
+       applyTheme('light');
+     } else {
+       applyTheme('dark');
+     }
+   });
+
+   // ========== State ==========
+   var currentSearch = '';
   var currentTag = '';
   var editingId = null;
   var viewingId = null;
@@ -145,10 +182,33 @@ $(function () {
     return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }) + ' ' + d.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
   }
 
+  // ========== Skeleton loading cards (dynamic count) ==========
+  function showSkeleton(count) {
+    count = typeof count === 'number' ? count : 6;
+    var html = '';
+    for (var i = 0; i < count; i++) {
+      html += '<div class="skeleton-card rounded-xl p-5">' +
+        '<div class="flex items-center justify-between mb-3">' +
+          '<div class="h-5 w-40 rounded skeleton-shimmer"></div>' +
+          '<div class="h-5 w-16 rounded skeleton-shimmer"></div>' +
+        '</div>' +
+        '<div class="space-y-2">' +
+          '<div class="h-4 rounded w-full skeleton-shimmer"></div>' +
+          '<div class="h-4 rounded w-3/4 skeleton-shimmer"></div>' +
+          '<div class="h-4 rounded w-1/2 skeleton-shimmer"></div>' +
+        '</div>' +
+      '</div>';
+    }
+    $('#snippetGrid').html(html);
+  }
+
+  function hideSkeleton() {
+    $('#snippetGrid').empty();
+  }
+
   // ========== Load snippets ==========
   function loadSnippets(reset) {
     if (reset) {
-      $('#snippetGrid').empty();
       currentSearch = '';
       $('#searchInput').val('');
       currentTag = '';
@@ -159,6 +219,11 @@ $(function () {
     if (currentSearch) params.q = currentSearch;
     if (currentTag) params.tag = currentTag;
     params.limit = 50;
+
+    // Show dynamic skeleton count (max 6 cards)
+    showSkeleton(6);
+    $('#emptyState, #noResultsState').addClass('hidden');
+    $('#snippetCount').text('กำลังโหลด...');
 
     $.getJSON(API_BASE + 'snippets.php', params).done(function (res) {
       if (!res.success) return;
@@ -488,7 +553,7 @@ $(function () {
     var shareUrl = window.location.origin + window.location.pathname + '?share_token=' + snippet.share_token;
     var html = '<div class="space-y-3"><p class="text-sm text-[#8b949e]">แชร์ลิงก์นี้ให้ผู้อื่น:</p>';
     html += '<input id="shareLinkInput" type="text" value="' + escapeAttr(shareUrl) + '" readonly class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm text-[#58a6ff] font-mono">';
-    html += '<p class="text-xs text-[#484f58]">หรือใช้ token: <code class="px-1 py-0.5 bg-[#21262d] rounded">' + escapeAttr(snippet.share_token) + '</code></p>';
+    html += '<p class="text-xs text-[#484f58]">หรือใช้ token: <code class="token-code px-1 py-0.5 bg-[#0d1117] text-white rounded font-mono">' + escapeAttr(snippet.share_token) + '</code></p>';
 
     if (snippet.share_token && snippet.is_public == true) {
       html += '<button id="btnUnshareSnippet" class="mt-2 text-xs text-[#f85149] hover:text-[#ff7b72] transition-colors">ยกเลิกการแชร์</button>';

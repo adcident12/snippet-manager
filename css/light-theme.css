@@ -1,0 +1,518 @@
+/* Personal Snippet Manager - Light Theme Overrides */
+
+/* Apply only when [data-theme="light"] is set on <html> */
+
+/* Backgrounds */
+[data-theme="light"] body {
+  background-color: #ffffff !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] header {
+  background: linear-gradient(135deg, #f6f8fa 0%, #eff1f4 100%) !important;
+  border-color: #d0d7de !important;
+}
+
+[data-theme="light"] header > div:first-child::after {
+  display: none;
+}
+
+/* Header gradient overlay */
+[data-theme="light"] header > .absolute {
+  background: linear-gradient(90deg, transparent 0%, rgba(31,111,235,0.06) 50%, transparent 100%) !important;
+}
+
+/* Text colors */
+[data-theme="light"] h1,
+[data-theme="light"] .text-\[\#e6edf3\] {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] .text-\[\#8b949e\] {
+  color: #656d76 !important;
+}
+
+/* Search bar */
+[data-theme="light"] #searchInput {
+  background-color: #f6f8fa !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+  placeholder-text-color: #8c959f !important;
+}
+
+[data-theme="light"] #searchInput::placeholder {
+  color: #8c959f !important;
+}
+
+/* Modals */
+[data-theme="light"] .bg-\[\#161b22\] {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+}
+
+[data-theme="light"] .border-\[\#21262d\],
+[data-theme="light"] .border-\[\#21262d\]\/50 {
+  border-color: #d0d7de !important;
+}
+
+[data-theme="light"] .border-\[\#30363d\] {
+  border-color: #d0d7de !important;
+}
+
+/* Input fields in modals */
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background-color: #f6f8fa !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #8c959f !important;
+}
+
+/* Snippet cards */
+[data-theme="light"] .snippet-card {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+}
+
+[data-theme="light"] .snippet-card:hover {
+  border-color: #58a6ff !important;
+}
+
+/* Tag filter buttons */
+[data-theme="light"] .tag-filter-btn {
+  background-color: #f6f8fa !important;
+  color: #656d76 !important;
+  border-color: #d0d7de !important;
+}
+
+[data-theme="light"] .tag-filter-btn:hover {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] .tag-filter-btn.active,
+[data-theme="light"] .tag-filter-btn.bg-\[\#388bfd\]\/20 {
+  background-color: #ddf4ff !important;
+  color: #0969da !important;
+}
+
+/* Badge colors */
+[data-theme="light"] .text-\[\#58a6ff\] {
+  color: #0969da !important;
+}
+
+[data-theme="light"] .bg-\[\#388bfd\]\/15 {
+  background-color: #ddf4ff !important;
+}
+
+/* Code block */
+[data-theme="light"] pre {
+  background-color: #f6f8fa !important;
+}
+
+[data-theme="light"] code {
+  color: #1f2328 !important;
+}
+
+/* Exception: white text for code blocks inside view modal */
+[data-theme="light"] .view-code-block code {
+  color: #ffffff !important;
+}
+
+/* Modal backdrop */
+[data-theme="light"] .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Button styles — icons in card footer */
+[data-theme="light"] .btn-view,
+[data-theme="light"] .btn-edit,
+[data-theme="light"] .btn-delete,
+[data-theme="light"] .btn-download {
+  color: #656d76 !important;
+}
+
+[data-theme="light"] .btn-view:hover,
+[data-theme="light"] .btn-edit:hover,
+[data-theme="light"] .btn-download:hover {
+  color: #0969da !important;
+}
+
+[data-theme="light"] .btn-delete:hover {
+  color: #cf222e !important;
+}
+
+/* Snippet card action icons — hover backgrounds */
+[data-theme="light"] .snippet-card .btn-view,
+[data-theme="light"] .snippet-card .btn-edit,
+[data-theme="light"] .snippet-card .btn-download,
+[data-theme="light"] .snippet-card .btn-delete {
+  color: #656d76 !important;
+}
+
+[data-theme="light"] .snippet-card .btn-view:hover,
+[data-theme="light"] .snippet-card .btn-edit:hover,
+[data-theme="light"] .snippet-card .btn-download:hover {
+  background-color: #ddf4ff !important;
+  color: #0969da !important;
+}
+
+[data-theme="light"] .snippet-card .btn-delete:hover {
+  background-color: #ffebe9 !important;
+  color: #cf222e !important;
+}
+
+/* Share button in view footer — filled style */
+[data-theme="light"] #btnShareSnippet {
+  background-color: #0969da !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+[data-theme="light"] #btnShareSnippet:hover {
+  background-color: #0550ae !important;
+}
+
+/* Edit button in view footer */
+[data-theme="light"] #btnEditFromView {
+  background-color: #0969da !important;
+}
+
+[data-theme="light"] #btnEditFromView:hover {
+  background-color: #0550ae !important;
+}
+
+/* View footer action buttons — filled style */
+[data-theme="light"] #btnDownloadFromView,
+[data-theme="light"] #btnCopySnippet {
+  background-color: #f6f8fa !important;
+  border: 1px solid #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] #btnDownloadFromView:hover,
+[data-theme="light"] #btnCopySnippet:hover {
+  background-color: #e8ecf0 !important;
+  border-color: #afb4ba !important;
+}
+
+/* Share modal dialog */
+[data-theme="light"] #shareModal .relative {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] #shareModal p {
+  color: #656d76 !important;
+}
+
+[data-theme="light"] #shareModal .text-\[\#484f58\] {
+  color: #8c959f !important;
+}
+
+/* Unshare button — filled red + underline */
+[data-theme="light"] #btnUnshareSnippet {
+  background-color: #da3633 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+[data-theme="light"] #btnUnshareSnippet:hover {
+  background-color: #f85149 !important;
+  color: #ffffff !important;
+}
+
+/* Share modal close button */
+[data-theme="light"] #shareModal #btnCloseShareModal {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+[data-theme="light"] #shareModal #btnCloseShareModal svg {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] #shareModal #btnCloseShareModal svg:hover {
+  color: #374151 !important;
+}
+
+[data-theme="light"] #shareModal #btnCloseShareModal::backdrop {
+  background-color: transparent !important;
+}
+
+/* Share token code block — dark bg + white text */
+[data-theme="light"] .token-code {
+  background-color: #0d1117 !important;
+  color: #ffffff !important;
+}
+
+/* Share modal close */
+[data-theme="light"] #shareModal .text-\[\#8b949e\] {
+  color: #656d76 !important;
+}
+
+[data-theme="light"] #shareModal .text-\[\#8b949e\]:hover {
+  color: #1f2328 !important;
+}
+
+/* Share modal copy button — filled style */
+[data-theme="light"] #shareModal button:last-of-type,
+[data-theme="light"] #shareModal #btnCopyShareLink {
+  color: #ffffff !important;
+  border: none !important;
+}
+
+/* Share link input */
+[data-theme="light"] #shareLinkInput {
+  font-weight: 500 !important;
+  color: #1f2328 !important;
+  background-color: #f6f8fa !important;
+}
+
+/* Status bar text */
+[data-theme="light"] #statusBar span {
+  color: #656d76 !important;
+}
+
+[data-theme="light"] #btnLoadAll {
+  color: #0969da !important;
+}
+
+[data-theme="light"] #btnLoadAll:hover {
+  color: #0550ae !important;
+}
+
+/* Snippet card number badges */
+[data-theme="light"] .text-\[\#8b949e\] {
+  color: #656d76 !important;
+}
+
+/* Header text */
+[data-theme="light"] header .text-sm,
+[data-theme="light"] .filter-tags-subtitle,
+[data-theme="light"] .font-medium.text-\[\#8b949e\],
+[data-theme="light"] .text-xs.font-medium.text-\[\#8b949e\] {
+  color: #656d76 !important;
+}
+
+/* Empty states */
+[data-theme="light"] #emptyState h3,
+[data-theme="light"] #noResultsState h3 {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] #emptyState p,
+[data-theme="light"] #noResultsState p {
+  color: #656d76 !important;
+}
+
+/* Markdown preview */
+[data-theme="light"] #markdownPreviewContainer {
+  border-color: #d0d7de !important;
+  background-color: #ffffff !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] #markdownPreviewContainer h1,
+[data-theme="light"] #markdownPreviewContainer h2,
+[data-theme="light"] #markdownPreviewContainer h3,
+[data-theme="light"] #markdownPreviewContainer h4,
+[data-theme="light"] #markdownPreviewContainer h5,
+[data-theme="light"] #markdownPreviewContainer h6 {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] #markdownPreviewContainer a {
+  color: #0969da !important;
+}
+
+[data-theme="light"] #markdownPreviewContainer pre,
+[data-theme="light"] #markdownPreviewContainer code {
+  background-color: #f6f8fa !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] #markdownPreviewContainer blockquote {
+  border-left-color: #d0d7de !important;
+  color: #656d76 !important;
+}
+
+[data-theme="light"] #markdownPreviewContainer table {
+  border-color: #d0d7de !important;
+}
+
+[data-theme="light"] #markdownPreviewContainer th {
+  background-color: #f6f8fa !important;
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] #markdownPreviewContainer td {
+  border-color: #d0d7de !important;
+}
+
+/* Markdown toggle bar */
+[data-theme="light"] #markdownToggle {
+  padding-top: 12px !important;
+}
+
+[data-theme="light"] #markdownToggle .inline-flex {
+  border-color: #d0d7de !important;
+  background-color: #f6f8fa !important;
+}
+
+[data-theme="light"] #btnMarkdownRaw,
+[data-theme="light"] #btnMarkdownPreview {
+  color: #656d76 !important;
+}
+
+[data-theme="light"] #btnMarkdownRaw:hover,
+[data-theme="light"] #btnMarkdownPreview:hover {
+  background-color: #e8ecf0 !important;
+  color: #1f2328 !important;
+}
+
+/* View modal text */
+[data-theme="light"] #viewTitle {
+  color: #1f2328 !important;
+}
+
+[data-theme="light"] #viewDescription,
+[data-theme="light"] #viewDate {
+  color: #656d76 !important;
+}
+
+/* Tag pills in view modal */
+[data-theme="light"] .tag-pill {
+  background-color: #ddf4ff !important;
+  color: #0969da !important;
+}
+[data-theme="light"] .tag-pill.tag-color-0 {
+  background-color: #ddf4ff !important;
+  color: #0969da !important;
+}
+[data-theme="light"] .tag-pill.tag-color-1 {
+  background-color: #dafbe1 !important;
+  color: #1a7f37 !important;
+}
+[data-theme="light"] .tag-pill.tag-color-2 {
+  background-color: #cffafe !important;
+  color: #0e8a8e !important;
+}
+[data-theme="light"] .tag-pill.tag-color-3 {
+  background-color: #fdffe1 !important;
+  color: #9a6700 !important;
+}
+[data-theme="light"] .tag-pill.tag-color-4 {
+  background-color: #ffd9d8 !important;
+  color: #cf222e !important;
+}
+[data-theme="light"] .tag-pill.tag-color-5 {
+  background-color: #f1b9fe !important;
+  color: #990f7d !important;
+}
+
+/* View modal code block (stays dark) — white text */
+[data-theme="light"] .view-code-block {
+  background-color: #0d1117 !important;
+  color: #ffffff !important;
+}
+
+/* Delete confirmation icon */
+[data-theme="light"] .bg-\[\#da3633\]\/10 {
+  background-color: #ffebe9 !important;
+}
+
+/* Empty/no-results icons */
+[data-theme="light"] #emptyState svg,
+[data-theme="light"] #noResultsState svg {
+  color: #8c959f !important;
+}
+
+/* Skeleton shimmer — dark mode (default) */
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #161b22 25%, #1c2129 50%, #161b22 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer-skeleton 1.5s ease-in-out infinite !important;
+}
+
+.skeleton-card {
+  background-color: #161b22 !important;
+  border-color: #21262d !important;
+}
+
+@keyframes shimmer-skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Skeleton shimmer — light mode (use light bg, not dark) */
+[data-theme="light"] .skeleton-card {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .skeleton-shimmer {
+  background: linear-gradient(90deg, #f6f8fa 25%, #e8ecf0 50%, #f6f8fa 75%) !important;
+  background-size: 200% 100% !important;
+}
+
+/* Scrollbar */
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background-color: #f6f8fa !important;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background-color: #c9cdd3 !important;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background-color: #aeb4bc !important;
+}
+
+/* Toast notification */
+[data-theme="light"] #toast div {
+  background-color: #238636 !important;
+}
+
+/* Snippet card subtitle */
+[data-theme="light"] .snippet-card p,
+[data-theme="light"] .text-\[\#8b949e\] {
+  color: #656d76 !important;
+}
+
+/* First snippet button */
+[data-theme="light"] .bg-gradient-to-r.from-\[\#238636\] {
+  color: #ffffff !important;
+}
+
+/* Button in footer (cancel, etc.) */
+[data-theme="light"] .hover\:text-\[\#e6edf3\] {
+  color: #1f2328 !important;
+}
+
+/* Edit/Delete modal sub text */
+[data-theme="light"] .deleteModal p,
+[data-theme="light"] .bg-\[\#161b22\] p {
+  color: #656d76 !important;
+}
+
+/* Markdown preview container border */
+[data-theme="light"] .markdownPreviewContainer {
+  border-color: #d0d7de !important;
+}
+
+/* Dark theme (default) — keep the original colors */
+html[data-theme="dark"] body {
+  background-color: #0d1117 !important;
+  color: #e6edf3 !important;
+}

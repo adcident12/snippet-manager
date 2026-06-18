@@ -15,6 +15,8 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/parsedown-css@1.0.0/dist/parsedown.min.css">
    <!-- Custom markdown preview styles (light-mode) -->
    <link rel="stylesheet" href="css/markdown-preview.css">
+   <!-- Light theme overrides -->
+   <link rel="stylesheet" href="css/light-theme.css" id="lightThemeCss">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
    <!-- Syntax highlighters — all 15 languages used in the app -->
@@ -63,13 +65,24 @@
           </div>
         </div>
 
-        <!-- New snippet button -->
-        <button id="btnNewSnippet" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#238636] to-[#2ea043] hover:from-[#2ea043] hover:to-[#3fb950] text-white text-sm font-medium rounded-lg transition-all shadow-sm" style="border: 1px solid rgba(255,255,255,0.08);">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
-          เพิ่ม snippet
-        </button>
+        <!-- New snippet + Theme toggle group -->
+        <div class="flex items-center gap-2">
+          <button id="btnNewSnippet" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#238636] to-[#2ea043] hover:from-[#2ea043] hover:to-[#3fb950] text-white text-sm font-medium rounded-lg transition-all shadow-sm" style="border: 1px solid rgba(255,255,255,0.08);">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            เพิ่ม snippet
+          </button>
+
+          <button id="btnThemeToggle" class="flex items-center gap-2 px-3 py-2 text-[#8b949e] hover:text-[#e6edf3] bg-[#161b22] border border-[#30363d] rounded-lg transition-colors" title="สลับธีม">
+            <svg id="themeIconSun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <svg id="themeIconMoon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <!-- Tag filter -->
@@ -89,22 +102,37 @@
     </div>
 
     <!-- Snippet grid -->
-    <div id="snippetGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-      <!-- Loading skeleton -->
-      <div class="bg-[#161b22] border border-[#21262d] rounded-xl p-5" style="background: linear-gradient(90deg, #161b22 25%, #1c2129 50%, #161b22 75%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite;">
-        <div class="flex items-center justify-between mb-3">
-          <div class="h-5 w-40 rounded skeleton-shimmer"></div>
-          <div class="h-5 w-16 rounded skeleton-shimmer"></div>
-        </div>
-        <div class="space-y-2">
-          <div class="h-4 rounded w-full skeleton-shimmer"></div>
-          <div class="h-4 rounded w-3/4 skeleton-shimmer"></div>
-          <div class="h-4 rounded w-1/2 skeleton-shimmer"></div>
-        </div>
-      </div>
-    </div>
+    <div id="snippetGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
 
     <!-- Empty state -->
+    <div id="emptyState" class="hidden text-center py-20">
+      <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-[#161b22] border border-[#30363d]/50 rounded-full">
+        <svg class="w-10 h-10 text-[#484f58]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-[#8b949e] mb-1">ยังไม่มี snippet</h3>
+      <p class="text-sm text-[#484f58] mb-4">เริ่มเพิ่ม snippet แรกของคุณ</p>
+      <button id="btnFirstSnippet" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#238636] to-[#2ea043] hover:from-[#2ea043] hover:to-[#3fb950] text-white text-sm font-medium rounded-lg transition-all shadow-sm" style="border: 1px solid rgba(255,255,255,0.08);">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        เพิ่ม snippet แรก
+      </button>
+    </div>
+
+    <!-- No results state -->
+    <div id="noResultsState" class="hidden text-center py-20">
+      <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-[#161b22] border border-[#30363d]/50 rounded-full">
+        <svg class="w-10 h-10 text-[#484f58]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-[#8b949e] mb-1">ไม่พบผลลัพธ์</h3>
+      <p class="text-sm text-[#484f58]">ลองค้นหาด้วยคำอื่น หรือเพิ่ม snippet ใหม่</p>
+    </div>
+
+    <!--
     <div id="emptyState" class="hidden text-center py-20">
       <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-[#161b22] border border-[#30363d]/50 rounded-full">
         <svg class="w-10 h-10 text-[#484f58]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,8 +251,8 @@
           </button>
         </div>
 
-        <!-- View body -->
-        <div class="p-6 overflow-y-auto flex-1 min-h-0">
+        <!-- View body (non-scrollable) -->
+        <div class="p-6 flex-1 min-h-0">
           <!-- Tags -->
           <div id="viewTags" class="flex items-center gap-2 mb-4 flex-wrap"></div>
 
@@ -232,7 +260,7 @@
           <p id="viewDescription" class="text-sm text-[#8b949e] mb-4 hidden"></p>
 
           <!-- Code block (scrollable) -->
-          <pre class="view-code-block" id="viewCodeBlock"><code id="viewCode" class="language-php"></code></pre>
+          <pre class="view-code-block overflow-y-auto max-h-[300px] rounded-lg" id="viewCodeBlock"><code id="viewCode" class="language-php"></code></pre>
 
           <!-- Markdown preview container (hidden by default) -->
           <div id="markdownPreviewContainer" class="hidden rounded-lg p-6 overflow-y-auto max-h-[400px] border border-[#30363d] bg-white text-[#2c3e50]">
