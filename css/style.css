@@ -1063,6 +1063,9 @@
   background: transparent !important;
   padding: 0 !important;
 }
+#markdownToggle {
+  padding-top: 12px;
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
