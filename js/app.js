@@ -133,8 +133,8 @@ $(function () {
     }
 
     var safeId = String(snippet.id);
-    return '<div class="snippet-card group bg-[#161b22] border border-[#21262d] rounded-xl overflow-hidden hover:border-[#30363d] hover:shadow-lg hover:shadow-black/20 transition-all" data-id="' + safeId + '">' +
-      '<div class="p-5 pb-3">' +
+    return '<div class="snippet-card group flex flex-col bg-[#161b22] border border-[#21262d] rounded-xl overflow-hidden hover:border-[#30363d] hover:shadow-lg hover:shadow-black/20 transition-all" data-id="' + safeId + '">' +
+      '<div class="p-5 pb-3 flex-1">' +
         '<div class="flex items-start justify-between gap-3 mb-2 cursor-pointer card-header">' +
           '<h3 class="font-medium text-[#e6edf3] text-sm leading-snug flex-1 min-w-0 truncate">' + escapeAttr(snippet.title) + '</h3>' +
           '<span class="snippet-lang-badge px-2 py-0.5 text-[10px] bg-[#388bfd]/15 text-[#58a6ff] rounded whitespace-nowrap font-medium">' + getDisplayName(snippet.language) + '</span>' +
