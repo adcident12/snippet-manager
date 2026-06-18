@@ -52,26 +52,44 @@
     }
     .fade-slide-up { animation: fadeSlideUp 0.3s ease-out both; }
 
-    #btnLoadMore { position: relative; overflow: hidden; }
-    #btnLoadMore::before {
+    /* Load More Button — dark (default) */
+    .lm-btn {
+      position: relative; overflow: hidden;
+      background: linear-gradient(to bottom, #1a2030, #161b22);
+      border: 1px solid #30363d;
+      color: #8b949e;
+    }
+    .lm-btn:hover { color: #e6edf3; border-color: rgba(88,166,255,0.5); box-shadow: 0 4px 12px rgba(88,166,255,0.05); }
+    .lm-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .lm-badge { background: #21262d; color: #484f58; }
+
+    .lm-btn::before {
       content: '';
       position: absolute; inset: 0;
       background: linear-gradient(90deg, transparent, rgba(88,166,255,0.06), transparent);
       transform: translateX(-100%);
-      transition: none;
     }
-    #btnLoadMore:hover::before { animation: shimmerBtn 1.5s infinite; }
-    @keyframes shimmerBtn {
-      to { transform: translateX(100%); }
-    }
+    .lm-btn:hover::before { animation: shimmerBtn 1.5s infinite; }
+    @keyframes shimmerBtn { to { transform: translateX(100%); } }
 
-    .load-more-spinner {
-      animation: spin 0.8s linear infinite;
-      display: inline-block;
+    /* Loading state — icon spins */
+    .lm-btn.is-loading .lm-icon { animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Load More Button — light mode */
+    [data-theme="light"] .lm-btn {
+      background: linear-gradient(to bottom, #ffffff, #f6f8fa);
+      border-color: #d0d7de;
+      color: #57606a;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    [data-theme="light"] .lm-btn:hover {
+      color: #24292f; border-color: #0969da;
+      box-shadow: 0 4px 12px rgba(9,105,218,0.08);
     }
+    [data-theme="light"] .lm-btn::before {
+      background: linear-gradient(90deg, transparent, rgba(9,105,218,0.05), transparent);
+    }
+    [data-theme="light"] .lm-badge { background: #eaeef2; color: #656d76; }
   </style>
 </head>
 <body class="h-full bg-[#0d1117] text-[#e6edf3]">

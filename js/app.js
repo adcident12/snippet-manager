@@ -274,9 +274,7 @@ $(function () {
   function loadMore() {
     isLoadingMore = true;
     var $btn = $('#btnLoadMore');
-    $btn.prop('disabled', true).addClass('opacity-60');
-    $btn.find('.lm-icon').addClass('hidden');
-    $btn.find('.lm-spinner').removeClass('hidden');
+    $btn.prop('disabled', true).addClass('is-loading');
     $btn.find('.lm-text').text('กำลังโหลด...');
     loadSnippets();
   }
@@ -286,19 +284,15 @@ $(function () {
     var $pag = $('#pagination');
     $pag.empty();
 
-    if (loadedCount >= totalSnippets) { $pag.addClass('hidden fade-slide-up'); return; }
+    if (loadedCount >= totalSnippets) { $pag.addClass('hidden'); return; }
 
     var remaining = totalSnippets - loadedCount;
     var nextBatch = Math.min(remaining, perPage);
     $pag.html(
-      '<button id="btnLoadMore" class="group flex items-center gap-2.5 px-8 py-3 text-sm font-medium rounded-xl transition-all duration-200 ' +
-        'bg-gradient-to-b from-[#1a2030] to-[#161b22] border border-[#30363d] ' +
-        'text-[#8b949e] hover:text-[#e6edf3] hover:border-[#58a6ff]/50 hover:shadow-lg hover:shadow-[#58a6ff]/5 ' +
-        'active:scale-[0.98]">' +
+      '<button id="btnLoadMore" class="group lm-btn flex items-center gap-2.5 px-8 py-3 text-sm font-medium rounded-xl transition-all duration-200 active:scale-[0.98]">' +
         '<svg class="lm-icon w-4 h-4 transition-transform duration-200 group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>' +
-        '<svg class="lm-spinner hidden load-more-spinner w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>' +
         '<span class="lm-text">โหลดเพิ่ม ' + nextBatch + ' รายการ</span>' +
-        '<span class="px-2 py-0.5 text-[10px] bg-[#21262d] text-[#484f58] rounded-md">' + loadedCount + '/' + totalSnippets + '</span>' +
+        '<span class="lm-badge px-2 py-0.5 text-[10px] rounded-md">' + loadedCount + '/' + totalSnippets + '</span>' +
       '</button>'
     ).removeClass('hidden').addClass('fade-slide-up');
   }
