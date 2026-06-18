@@ -18,3 +18,8 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Server-specific
+deploy.sh
+sql-data/
+.deploy-trigger
