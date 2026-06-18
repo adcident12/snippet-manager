@@ -76,7 +76,10 @@ $(function () {
       info: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
     };
     var $toast = $('#toast');
-    $toast.find('div').css('background', colors[type] || colors.success).html(icons[type] + '<span>' + message + '</span>');
+    var $div = $toast.find('div');
+    $div.css('background', colors[type] || colors.success);
+    $div.html(icons[type] || '');
+    $div.append($('<span>').text(message));
     $toast.removeClass('hidden');
     setTimeout(function () { $toast.addClass('hidden'); }, 3000);
   }
@@ -105,7 +108,7 @@ $(function () {
   // ========== Escape special HTML chars (for attribute values) ==========
   function escapeAttr(str) {
     if (!str && str !== 0) return '';
-    var entities = { '\u0026': '\u0026amp;', '\u003c': '\u003clt;', '\u003e': '\u003egt;', '\u0022': '\u0022quot;', '\u0027': '\u0027apos;' };
+    var entities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
     return String(str).replace(/[&<>"']/g, function(c) { return entities[c]; });
   }
 
@@ -491,9 +494,16 @@ $(function () {
 
   function renderMarkdownPreview(markdownText) {
     if (typeof marked !== 'undefined') {
+      marked.setOptions({ breaks: true });
       var mdHtml = marked.parse(markdownText || '');
-      // Directly use innerHTML to set the rendered markdown — no jQuery wrapping overhead
-      $('#markdownPreview').html(mdHtml);
+      var $container = $('<div>').html(mdHtml);
+      $container.find('script,iframe,object,embed,form,input,textarea,button').remove();
+      $container.find('[onload],[onerror],[onclick],[onmouseover],[onfocus],[onblur]').each(function() {
+        var el = this;
+        $.each(el.attributes, function() { if (this && /^on/i.test(this.name)) el.removeAttribute(this.name); });
+      });
+      $container.find('a[href^="javascript:"]').attr('href', '#');
+      $('#markdownPreview').html($container.html());
     } else {
       $('#markdownPreview').text(markdownText);
     }
