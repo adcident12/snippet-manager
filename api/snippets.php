@@ -142,7 +142,16 @@ function handleGet(PDO $pdo): void {
         $whereSql = 'WHERE ' . implode(' AND ', $whereClauses);
     }
 
-    // Get snippets with tags (use separate vars to avoid param binding collision)
+    // Count total matching snippets
+    $countSql = "SELECT COUNT(DISTINCT s.id) FROM snippets s LEFT JOIN snippet_tags st ON s.id = st.snippet_id LEFT JOIN tags t ON st.tag_id = t.id {$whereSql}";
+    $countStmt = $pdo->prepare($countSql);
+    foreach ($params as $key => $value) {
+        $countStmt->bindValue($key, $value, is_string($value) ? PDO::PARAM_STR : PDO::PARAM_INT);
+    }
+    $countStmt->execute();
+    $total = (int) $countStmt->fetchColumn();
+
+    // Get snippets with tags
     $sql = "SELECT s.*, GROUP_CONCAT(t.name ORDER BY t.name SEPARATOR ',') as tag_names FROM snippets s LEFT JOIN snippet_tags st ON s.id = st.snippet_id LEFT JOIN tags t ON st.tag_id = t.id {$whereSql} GROUP BY s.id ORDER BY s.updated_at DESC LIMIT :limit OFFSET :offset";
 
     $stmt = $pdo->prepare($sql);
@@ -153,7 +162,6 @@ function handleGet(PDO $pdo): void {
             $stmt->bindValue($key, $value, PDO::PARAM_INT);
         }
     }
-    // Bind LIMIT/OFFSET parameters (not in $params)
     $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
@@ -164,12 +172,13 @@ function handleGet(PDO $pdo): void {
         $snippet['tags'] = $snippet['tag_names'] ? explode(',', $snippet['tag_names']) : [];
         unset($snippet['tag_names']);
     }
-    unset($snippet); // Break reference
+    unset($snippet);
 
     echo json_encode([
         'success' => true,
         'data' => $snippets,
         'meta' => [
+            'total' => $total,
             'limit' => $limit,
             'offset' => $offset
         ]

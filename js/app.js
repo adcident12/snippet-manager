@@ -47,7 +47,10 @@ $(function () {
   var deletingId = null;
   var debounceTimer = null;
   var currentViewData = null;
-  var currentViewRawCode = null; // Store raw code for toggle (avoids HTML entity double-escape)
+  var currentViewRawCode = null;
+  var currentPage = 1;
+  var perPage = 12;
+  var totalSnippets = 0;
 
    // ========== API base URL ==========
    var API_BASE = 'api/';
@@ -215,17 +218,17 @@ $(function () {
       currentSearch = '';
       $('#searchInput').val('');
       currentTag = '';
+      currentPage = 1;
       $('.tag-filter-btn').removeClass('bg-[#388bfd]/20 text-[#58a6ff]').addClass('bg-[#21262d] text-[#8b949e]');
     }
 
-    var params = {};
+    var offset = (currentPage - 1) * perPage;
+    var params = { limit: perPage, offset: offset };
     if (currentSearch) params.q = currentSearch;
     if (currentTag) params.tag = currentTag;
-    params.limit = 50;
 
-    // Show dynamic skeleton count (max 6 cards)
-    showSkeleton(6);
-    $('#emptyState, #noResultsState').addClass('hidden');
+    showSkeleton(perPage > 6 ? 6 : perPage);
+    $('#emptyState, #noResultsState, #pagination').addClass('hidden');
     $('#snippetCount').text('กำลังโหลด...');
 
     $.getJSON(API_BASE + 'snippets.php', params).done(function (res) {
@@ -235,6 +238,8 @@ $(function () {
       $grid.empty();
 
       var items = res.data || [];
+      totalSnippets = (res.meta && res.meta.total) ? res.meta.total : items.length;
+
       if (items.length === 0) {
         if (currentSearch || currentTag) {
           $('#noResultsState').removeClass('hidden');
@@ -248,10 +253,53 @@ $(function () {
         items.forEach(function (s) { $grid.append(renderCard(s)); });
       }
 
-      $('#snippetCount').text(items.length + ' snippet' + (items.length !== 1 ? 's' : ''));
+      var from = totalSnippets > 0 ? offset + 1 : 0;
+      var to = Math.min(offset + items.length, totalSnippets);
+      $('#snippetCount').text(from + '-' + to + ' จาก ' + totalSnippets + ' snippets');
+
+      renderPagination();
     }).fail(function () {
       showToast('ไม่สามารถโหลดข้อมูลได้', 'error');
     });
+  }
+
+  // ========== Pagination ==========
+  function renderPagination() {
+    var totalPages = Math.ceil(totalSnippets / perPage);
+    var $pag = $('#pagination');
+    $pag.empty();
+
+    if (totalPages <= 1) { $pag.addClass('hidden'); return; }
+
+    var html = '';
+    var btnBase = 'px-3 py-1.5 text-xs rounded-lg border transition-colors ';
+    var btnActive = 'bg-[#1f6feb] border-[#1f6feb] text-white';
+    var btnNormal = 'bg-[#161b22] border-[#30363d] text-[#8b949e] hover:text-[#e6edf3] hover:border-[#58a6ff]';
+    var btnDisabled = 'bg-[#161b22] border-[#21262d] text-[#484f58] cursor-not-allowed';
+
+    html += '<button class="pag-btn ' + btnBase + (currentPage <= 1 ? btnDisabled : btnNormal) + '" data-page="' + (currentPage - 1) + '"' + (currentPage <= 1 ? ' disabled' : '') + '>&laquo;</button>';
+
+    var startPage = Math.max(1, currentPage - 2);
+    var endPage = Math.min(totalPages, startPage + 4);
+    if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+    if (startPage > 1) {
+      html += '<button class="pag-btn ' + btnBase + btnNormal + '" data-page="1">1</button>';
+      if (startPage > 2) html += '<span class="text-[#484f58] text-xs px-1">...</span>';
+    }
+
+    for (var i = startPage; i <= endPage; i++) {
+      html += '<button class="pag-btn ' + btnBase + (i === currentPage ? btnActive : btnNormal) + '" data-page="' + i + '">' + i + '</button>';
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) html += '<span class="text-[#484f58] text-xs px-1">...</span>';
+      html += '<button class="pag-btn ' + btnBase + btnNormal + '" data-page="' + totalPages + '">' + totalPages + '</button>';
+    }
+
+    html += '<button class="pag-btn ' + btnBase + (currentPage >= totalPages ? btnDisabled : btnNormal) + '" data-page="' + (currentPage + 1) + '"' + (currentPage >= totalPages ? ' disabled' : '') + '>&raquo;</button>';
+
+    $pag.html(html).removeClass('hidden');
   }
 
   // ========== Load tags ==========
@@ -275,6 +323,7 @@ $(function () {
     $('.tag-filter-btn').off('click').on('click', function () {
       var tag = $(this).data('tag');
       currentTag = (tag === currentTag) ? '' : tag;
+      currentPage = 1;
       if (currentTag) {
         $('.tag-filter-btn').removeClass('bg-[#388bfd]/20 text-[#58a6ff]').addClass('bg-[#21262d] text-[#8b949e]');
         $('[data-tag="' + escapeAttr(currentTag) + '"]').removeClass('bg-[#21262d] text-[#8b949e]').addClass('bg-[#388bfd]/20 text-[#58a6ff]');
@@ -731,12 +780,19 @@ $(function () {
       }
     });
 
+    $(document).on('click', '.pag-btn:not([disabled])', function () {
+      currentPage = parseInt($(this).data('page'), 10);
+      loadSnippets();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
     $('#searchInput').on('input', function () {
       clearTimeout(debounceTimer);
       var q = $(this).val();
       debounceTimer = setTimeout(function () {
         currentSearch = q;
-        loadSnippets((q === '' && !currentTag) ? true : undefined);
+        currentPage = 1;
+        loadSnippets();
       }, 300);
     });
 
