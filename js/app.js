@@ -766,19 +766,23 @@ $(function () {
   }
 
   // ========== Load CSRF token from server on init ==========
-  function loadCsrfToken() {
+  function loadCsrfToken(callback) {
     $.getJSON(API_BASE + 'snippets.php', { _csrf: '1' }).done(function (res) {
       if (res && res.csrf_token) {
         var token = res.csrf_token;
         $('#csrfTokenInput').val(token);
         $('meta[name="csrf-token"]').attr('content', token);
       }
+      if (callback) callback();
+    }).fail(function () {
+      if (callback) callback();
     });
   }
 
   // ========== Initialize ==========
   bindEvents();
-  loadSnippets(true);
-  loadTags();
-  loadCsrfToken();
+  loadCsrfToken(function () {
+    loadSnippets(true);
+    loadTags();
+  });
 });
