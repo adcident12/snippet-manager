@@ -39,8 +39,65 @@ $(function () {
      }
    });
 
-   // ========== State ==========
-   var currentSearch = '';
+  // ========== Language options for Slim Select
+  var languageOptions = [
+    { value: 'plaintext', text: 'Plain Text' },
+    { value: 'php', text: 'PHP' },
+    { value: 'javascript', text: 'JavaScript' },
+    { value: 'typescript', text: 'TypeScript' },
+    { value: 'python', text: 'Python' },
+    { value: 'css', text: 'CSS' },
+    { value: 'html', text: 'HTML' },
+    { value: 'sql', text: 'SQL' },
+    { value: 'json', text: 'JSON' },
+    { value: 'bash', text: 'Bash' },
+    { value: 'shell', text: 'Shell (Pure)' },
+    { value: 'java', text: 'Java' },
+    { value: 'cpp', text: 'C++' },
+    { value: 'csharp', text: 'C#' },
+    { value: 'go', text: 'Go' },
+    { value: 'rust', text: 'Rust' },
+    { value: 'markdown', text: 'Markdown' }
+  ];
+
+  // ========== Slim Select instance
+  var languageSelect = null;
+
+  // ========== Initialize Slim Select
+  function initLanguageSelect() {
+    if (languageSelect) return;
+    if (typeof SlimSelect === 'undefined') {
+      console.warn('SlimSelect not loaded yet');
+      return;
+    }
+    languageSelect = new SlimSelect({
+      select: '#editLanguageSelect',
+      settings: {
+        placeholderText: 'เลือกภาษา...',
+        searchPlaceholder: 'ค้นหาภาษา...',
+        showSearch: true,
+        closeOnSelect: true
+      },
+      data: languageOptions
+    });
+  }
+
+  // ========== Helper to get selected value from Slim Select
+  function getLanguageValue() {
+    if (!languageSelect) return 'plaintext';
+    var selected = languageSelect.getSelected();
+    return selected.length > 0 ? selected[0] : 'plaintext';
+  }
+
+  // ========== Helper to set value in Slim Select
+  function setLanguageValue(val) {
+    if (languageSelect && val) {
+      languageSelect.setSelected(val);
+    }
+  }
+
+  // ========== State ==========
+  var currentSearch = '';
   var currentTag = '';
   var editingId = null;
   var viewingId = null;
@@ -350,10 +407,11 @@ $(function () {
     $('#editTitle').val('');
     $('#editCode').val('');
     $('#editDescription').val('');
-    $('#editLanguage').val('plaintext');
     $('#editTags').val('');
     openAnyModal();
     $('#snippetModal').removeClass('hidden');
+    initLanguageSelect();
+    setLanguageValue('plaintext');
   }
 
   function openEditModal(id) {
@@ -365,17 +423,18 @@ $(function () {
       $('#editTitle').val(s.title);
       $('#editCode').val(s.code);
       $('#editDescription').val(s.description || '');
-      $('#editLanguage').val(s.language || 'plaintext');
       $('#editTags').val((s.tags || []).join(', '));
       openAnyModal();
       $('#snippetModal').removeClass('hidden');
+      initLanguageSelect();
+      setLanguageValue(s.language || 'plaintext');
     });
   }
 
    function saveSnippet() {
      var title = $.trim($('#editTitle').val());
      var code = $('#editCode').val();
-     var lang = $('#editLanguage').val();
+     var lang = getLanguageValue();
      var tagsStr = $.trim($('#editTags').val());
      var desc = $.trim($('#editDescription').val());
 
@@ -909,4 +968,5 @@ $(function () {
     loadSnippets(true);
     loadTags();
   });
+
 });

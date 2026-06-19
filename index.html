@@ -17,7 +17,10 @@
    <link rel="stylesheet" href="css/markdown-preview.css">
    <!-- Light theme overrides -->
    <link rel="stylesheet" href="css/light-theme.css" id="lightThemeCss">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Slim Select for beautiful custom selects -->
+    <link rel="stylesheet" href="css/slimselect.min.css">
+   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+   <script src="js/slimselect.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
    <!-- Syntax highlighters — all 15 languages used in the app -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
@@ -90,6 +93,184 @@
       background: linear-gradient(90deg, transparent, rgba(9,105,218,0.05), transparent);
     }
     [data-theme="light"] .lm-badge { background: #eaeef2; color: #656d76; }
+
+    /* ========== SlimSelect — Dark mode (default) ========== */
+    :root {
+      --ss-primary-color: #1f6feb;
+      --ss-bg-color: #0d1117;
+      --ss-font-color: #e6edf3;
+      --ss-font-placeholder-color: #484f58;
+      --ss-disabled-color: #21262d;
+      --ss-border-color: #30363d;
+      --ss-highlight-color: #1f6feb;
+      --ss-focus-color: #58a6ff;
+      --ss-border-radius: 8px;
+      --ss-main-height: 36px;
+      --ss-content-height: 260px;
+      --ss-animation-timing: 0.15s;
+    }
+
+    .ss-main {
+      background-color: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      padding: 6px 10px;
+      min-height: 36px;
+      transition: border-color 0.15s ease;
+    }
+    .ss-main:focus {
+      border-color: #58a6ff;
+      box-shadow: none;
+    }
+    .ss-main .ss-values .ss-placeholder {
+      color: #484f58;
+      font-size: 0.875rem;
+      padding: 0;
+    }
+    .ss-main .ss-values .ss-single {
+      color: #e6edf3;
+      font-size: 0.875rem;
+    }
+    .ss-main .ss-arrow path {
+      stroke: #8b949e;
+    }
+    .ss-main .ss-deselect svg path {
+      stroke: #8b949e;
+    }
+
+    .ss-content {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+    }
+    .ss-content.ss-open-below {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .ss-content.ss-open-above {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .ss-main.ss-open-below {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .ss-main.ss-open-above {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    .ss-content .ss-search {
+      padding: 8px;
+    }
+    .ss-content .ss-search input {
+      background-color: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #e6edf3;
+      font-size: 0.875rem;
+      padding: 6px 10px;
+    }
+    .ss-content .ss-search input::placeholder {
+      color: #484f58;
+    }
+    .ss-content .ss-search input:focus {
+      border-color: #58a6ff;
+      box-shadow: none;
+    }
+
+    .ss-content .ss-list {
+      scrollbar-width: thin;
+      scrollbar-color: #30363d transparent;
+    }
+    .ss-content .ss-list .ss-option {
+      color: #e6edf3;
+      font-size: 0.875rem;
+      padding: 8px 12px;
+      transition: background-color 0.1s ease;
+    }
+    .ss-content .ss-list .ss-option:hover {
+      background-color: #1f6feb;
+      color: #ffffff;
+    }
+    .ss-content .ss-list .ss-option.ss-highlighted {
+      background-color: #1f6feb;
+      color: #ffffff;
+    }
+    .ss-content .ss-list .ss-option:not(.ss-disabled).ss-selected {
+      background-color: rgba(31, 111, 235, 0.25);
+      color: #58a6ff;
+    }
+    .ss-content .ss-list .ss-option:not(.ss-disabled).ss-selected:hover {
+      background-color: #1f6feb;
+      color: #ffffff;
+    }
+
+    /* ========== SlimSelect — Light mode ========== */
+    [data-theme="light"] .ss-main {
+      background-color: #f6f8fa !important;
+      border-color: #d0d7de !important;
+      color: #1f2328 !important;
+    }
+    [data-theme="light"] .ss-main:focus {
+      border-color: #0969da !important;
+    }
+    [data-theme="light"] .ss-main .ss-values .ss-placeholder {
+      color: #8c959f !important;
+    }
+    [data-theme="light"] .ss-main .ss-values .ss-single {
+      color: #1f2328 !important;
+    }
+    [data-theme="light"] .ss-main .ss-arrow path {
+      stroke: #656d76 !important;
+    }
+    [data-theme="light"] .ss-main .ss-deselect svg path {
+      stroke: #656d76 !important;
+    }
+
+    [data-theme="light"] .ss-content {
+      background-color: #ffffff !important;
+      border-color: #d0d7de !important;
+      box-shadow: 0 8px 24px rgba(140, 149, 159, 0.2) !important;
+    }
+
+    [data-theme="light"] .ss-content .ss-search input {
+      background-color: #f6f8fa !important;
+      border-color: #d0d7de !important;
+      color: #1f2328 !important;
+    }
+    [data-theme="light"] .ss-content .ss-search input::placeholder {
+      color: #8c959f !important;
+    }
+    [data-theme="light"] .ss-content .ss-search input:focus {
+      border-color: #0969da !important;
+    }
+
+    [data-theme="light"] .ss-content .ss-list {
+      scrollbar-color: #d0d7de transparent;
+    }
+    [data-theme="light"] .ss-content .ss-list .ss-option {
+      color: #1f2328 !important;
+    }
+    [data-theme="light"] .ss-content .ss-list .ss-option:hover {
+      background-color: #0969da !important;
+      color: #ffffff !important;
+    }
+    [data-theme="light"] .ss-content .ss-list .ss-option.ss-highlighted {
+      background-color: #0969da !important;
+      color: #ffffff !important;
+    }
+    [data-theme="light"] .ss-content .ss-list .ss-option:not(.ss-disabled).ss-selected {
+      background-color: #ddf4ff !important;
+      color: #0969da !important;
+    }
+    [data-theme="light"] .ss-content .ss-list .ss-option:not(.ss-disabled).ss-selected:hover {
+      background-color: #0969da !important;
+      color: #ffffff !important;
+    }
   </style>
 </head>
 <body class="h-full bg-[#0d1117] text-[#e6edf3]">
@@ -212,25 +393,8 @@
             class="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:border-[#58a6ff] transition-colors">
 
           <div class="grid grid-cols-2 gap-3">
-            <select id="editLanguage"
-              class="px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm text-[#e6edf3] focus:outline-none focus:border-[#58a6ff] transition-colors appearance-none cursor-pointer">
-              <option value="plaintext">ภาษา</option>
-              <option value="php">PHP</option>
-              <option value="javascript">JavaScript</option>
-              <option value="typescript">TypeScript</option>
-              <option value="python">Python</option>
-              <option value="css">CSS</option>
-              <option value="html">HTML</option>
-              <option value="sql">SQL</option>
-              <option value="json">JSON</option>
-              <option value="bash">Bash</option>
-              <option value="java">Java</option>
-              <option value="cpp">C++</option>
-              <option value="csharp">C#</option>
-              <option value="go">Go</option>
-              <option value="rust">Rust</option>
-            <option value="markdown">Markdown</option>
-            </select>
+            <select id="editLanguageSelect"
+              class="px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm focus:outline-none transition-colors cursor-pointer"></select>
 
             <input id="editTags" type="text" placeholder="tags (แยกด้วย comma)"
               class="px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-sm text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:border-[#58a6ff] transition-colors">
